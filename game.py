@@ -2,7 +2,8 @@ import pygame #imports pygame module
 import random#imports random 
 from pygame.locals import * #imports all of pygame.locals
 
-
+screenWidth = 1200
+screenLength = 700
 
 class Player(pygame.sprite.Sprite):#class is the "blueprint" for creating objects, this one is the player sprite
     def __init__(self):#init is the constructor for class. 'self' is used to access variables that belongs to the class
@@ -24,12 +25,12 @@ class Player(pygame.sprite.Sprite):#class is the "blueprint" for creating object
   ##The code below restricts/stops the players when are moving so it prevents them from moving off the screen and disappearing
         if self.rect.left < 0: #The boundary for left side
             self.rect.left = 0#The boundary for left side
-        elif self.rect.right > 1500:#The boundary for right side
-            self.rect.right = 1500#The boundary for right side
+        elif self.rect.right > screenWidth:#The boundary for right side
+            self.rect.right = screenWidth#The boundary for right side
         if self.rect.top <= 0:#The boundary for top side
             self.rect.top = 0#The boundary for top side
-        elif self.rect.bottom >= 800:#The boundary for bottom side
-            self.rect.bottom = 800#The boundary for bottom side
+        elif self.rect.bottom >= screenLength:#The boundary for bottom side
+            self.rect.bottom = screenLength#The boundary for bottom side
             
 class Enemy(pygame.sprite.Sprite):#class is the "blueprint" for creating objects, this one is the enemy sprite
     def __init__(self):#init is the constructor for class. 'self' is used to access variables that belongs to the class
@@ -37,7 +38,7 @@ class Enemy(pygame.sprite.Sprite):#class is the "blueprint" for creating objects
         self.image = pygame.image.load('robotstroll1.png')#The enemy/self image is an image called robotstroll1 and is converted to a different pixel format
         self.image.set_colorkey((255, 255, 255), RLEACCEL)#This sets the hue/color of the image
         self.rect = self.image.get_rect(
-            center=(random.randint(1500, 2000), random.randint(0,800))#This means that incoming enemies will start on the right side of the screen, and generate at random places
+            center=(random.randint(screenWidth, screenWidth+500), random.randint(0,screenLength))#This means that incoming enemies will start on the right side of the screen, and generate at random places
         )
         self.speed = random.randint(2, 20)#random speed that the enemies will spawn
         
@@ -96,7 +97,7 @@ def game():#creates a funtion called game
 def end():#creates a funtion called end
     largeTexty = pygame.font.Font('freesansbold.ttf',100)#Font of of a text = largeTexty
     Texty, Textplace = textob("Game over", largeTexty)#the text and font of the text using textob funtion
-    Textplace.center = ((1500/2.1),(800/2.3))#where the text is placed
+    Textplace.center = ((screenWidth/2.1),(screenLength/2.3))#where the text is placed
     screen.blit(Texty, Textplace)#it will blit(draw the image to the screen at the given position) the text
     
     over=True#keeps the main loop running
@@ -107,8 +108,8 @@ def end():#creates a funtion called end
                 pygame.quit()#pygame will quit
         
 
-        button("Play Again",500,500,150,50,green,lightgreen,game)#This creates the button and make the text Play again, and places it and make it appear green and become brighter green when hover over it and when clicked it will run the function game
-        button("Quit",800,500,150,50,red,lightred,pygame.quit)#This creates the button and make the text Quit, and places it and make it appear red and become brighter red when hover over it and when clicked it will quit the game
+        button("Play Again",screenWidth/2 - 200,400,150,50,green,lightgreen,game)#This creates the button and make the text Play again, and places it and make it appear green and become brighter green when hover over it and when clicked it will run the function game
+        button("Quit",screenWidth/2 + 50,400,150,50,red,lightred,pygame.quit)#This creates the button and make the text Quit, and places it and make it appear red and become brighter red when hover over it and when clicked it will quit the game
 
             
         pygame.display.update()#updates the screen with everything that has been drawn from blit
@@ -127,16 +128,16 @@ def intro():#creates a funtion called intro
 
         screen.fill(white)#makes the screen/backgroung white
         largeText = pygame.font.Font('freesansbold.ttf',80)#Font of of a text = largeText
-        smallText = pygame.font.Font('freesansbold.ttf',20)#Font of of a text = smallText
+        smallText = pygame.font.Font('freesansbold.ttf',17)#Font of of a text = smallText
         Title, Place = textob("Robots Are Coming", largeText)#the text and font of the text using textob funtion
         Intruction, Placement= textob("Press the up, down, left, or right arrow key to move. You are the person, avoid the robots. Click the x button at the top of the screen to exit", smallText)#the text and font of the text using textob funtion
-        Placement.center=((1500/2), (800/2))#where the text is placed
-        Place.center = ((1500/2),(800/4))#where the text is placed
+        Placement.center=((screenWidth/2), (screenLength/3+50))#where the text is placed
+        Place.center = ((screenWidth/2),(screenLength/4))#where the text is placed
         screen.blit(Title, Place)#it will blit(draw the image to the screen at the given position) the Title
         screen.blit(Intruction, Placement)#it will blit(draw the image to the screen at the given position) the Insturction.
 
-        button("Start",500,550,150,50,green,lightgreen,game)#This creates the button and make the text Start, and places it and make it appear green and become brighter green when hover over it and when clicked it will run the function game
-        button("Quit",800,550,150,50,red,lightred,pygame.quit)#This creates the button and make the text Quit, and places it and make it appear red and become brighter red when hover over it and when clicked it will quit the game
+        button("Start",screenWidth/2 - 200,screenLength/2,150,50,green,lightgreen,game)#This creates the button and make the text Start, and places it and make it appear green and become brighter green when hover over it and when clicked it will run the function game
+        button("Quit",screenWidth/2 + 50,screenLength/2,150,50,red,lightred,pygame.quit)#This creates the button and make the text Quit, and places it and make it appear red and become brighter red when hover over it and when clicked it will quit the game
             
         pygame.display.update()#updates the screen with everything that has been drawn from blit
         clock.tick(15)#updates clock to will not run at more than 15 frames per seconds
@@ -151,7 +152,7 @@ green = (0,200,0)#make the variable green = the hue (0,0,0) = dark green
 lightred = (255,0,0)#make the variable lightred = the hue (255,0,0) = bright red
 lightgreen = (0,250,0)#make the variable lightgreen = the hue (0,200,0) = bright green
 
-screen=pygame.display.set_mode((1500,800))#creates a screen for the game
+screen=pygame.display.set_mode((screenWidth,screenLength))#creates a screen for the game
 pygame.display.set_caption('Avoid the Robots')#This will be the title of the window display
 clock = pygame.time.Clock()#make the pygame.time.Clock function = clock(variable)
 
